@@ -50,7 +50,7 @@ $sumGroup = dbNumRows($result);
                                         <table class="table table-bordered">
                                             <tr>
                                                 <td>หน่วยงาน</td>
-                                                <td><?php echo $_SESSION["office"];?></td>
+                                                <td><?php echo @$_SESSION["office"];?></td>
                                             </tr>
                                         </table>
                                     </div>
