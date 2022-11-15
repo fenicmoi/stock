@@ -1,3 +1,0 @@
-<?php  
-define("province", "พัทลุง");
-?>

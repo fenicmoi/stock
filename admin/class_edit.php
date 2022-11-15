@@ -1,69 +1,59 @@
 
 <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-         $('#sel_group').select2();
-    });
-</script>
 
 <?php  
-include("../library/database.php");
-$cid = $_POST['cid'];
+echo "hello";
+/*
+include("library/database.php");
+$cid = $_POST['data'];
+echo $cid;
+
+
 $sql = "SELECT * FROM st_class WHERE cid = $cid";
 $result = dbQuery($sql);
 $row = dbFetchAssoc($result);
-$group_id = $row['gid'];
-$cnumber = $row['cnumber'];
-$cname = $row['cname'];
 ?>
-
-<form  method="POST" action="?menu=class">
-
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">ชื่อประเภท</span>
-        </div>
-        <input type="text" class="form-control" id="cname" name="cname"  aria-label="class name" aria-describedby="basic-addon1" value="<?=$cname;?>">
-        
-    </div>
-
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">รหัสประเภท</span>
-        </div>
-        <input type="text" class="form-control col-md-2" id="cnumber" name="cnumber"  aria-label="classnumber" aria-describedby="basic-addon1" value="<?=$cnumber;?>">
-    </div>
-
+<form  method="POST">
+    <div class="form-group">
       <div class="input-group">
-            <select class="form-control sel_group" name="gid" id="gid" >
-                    <option >---กลุ่ม---</option>
+            <select class="form-control col-6" name="minis2" id="minis2">
+                    <option selected>---เลือกต้นสังกัด---</option>
                 <?php
-                    $g_sql="SELECT * FROM  st_group ORDER BY gid  ";
-                    $g_result=dbQuery($g_sql);
-                    $c = 0;
-                    while($g_row = dbFetchArray($g_result)){	
-                            $gid = $g_row["gid"];
-                            $gnumber = $g_row['gnumber'];
-                            $gname = $g_row["gname"];
-                            if($gid == $group_id){
-                                echo "<option value='$gid' selected>$gnumber | $gname</option> ";
-                            }else{
-                                echo "<option value='$gid'>$gnumber | $gname</option> ";
-                            }
-                            ?>
-                <?php 
-                 } ?> 
+                    $presee_sql="SELECT * FROM  st_group  ORDER BY gnumber";
+                    $presee_result=dbQuery($presee_sql);
+                    $presee_num=dbNumRows($presee_result);
+                    if ($presee_num>0){
+                        while($presee_row=dbFetchArray($presee_result)){	
+                            $m_id2=$presee_row["m_id"];
+                            $m_name2=$presee_row["m_name"];
+                        ?>
+                            <option value="<?php echo"$m_id2"?>"><? echo"$m_name2"?></option>
+                    <?php } //end while
+                    }else{?>
+                            <option value="0">NoData</option>
+                    <?}?>
             </select>
       </div>
       <br>
-      <input type="hidden" id="cid" name="cid" value="<?=$cid;?>">
-      <center><button type="submit" class="btn btn-primary" id="btnEditSave" name="btnEditSave">Save</button></center>
-
+      <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">ชื่อต้นสังกัด</span>
+          </div>
+          <input type="text" id="dep_name" name="dep_name" class="form-control col-10" value="<?php print $row['dep_name'];?>">
+      </div>
+      <br>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">ลำดับที่</span>
+        </div>
+        <input type="text" id="dep_impo" name="dep_impo" class="form-control col-2" value="<?php print $row['dep_impo'];?>">
+      </div>
+    </div> <!-- form-group -->
+    <br>
+    <center>
+    <button type="submit" class="btn btn-primary btn-md" name="btnEdit" id="btnEdit"><i class="fas fa-check"></i> ตกลง</button>
+    </center>
+    <input type="hidden" name="dep_id" id="dep_id" value="<?php echo $dep_id;?>">
 </form>
 
-<?php   
-    
-?>
+
